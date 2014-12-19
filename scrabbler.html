@@ -4,8 +4,9 @@
     <title>Instascrabble</title>    
   </head>
   <body>
-    <h1>Enter the letters in your hand below.</h1>
-    <input type="text" id="letters" placeholder="No spaces or commas" maxlength="10"></input>
+    <h1>Enter letters here</h1>
+    <input type="text" id="letters" placeholder="No spaces or commas" maxlength="10" style="display:none"></input>
+    <p id="message">Wait one second. Dynamically building trie from Scrabble wordlist.</p>
     <h4>Results:</h4>
     <p id="results">
     </p>
@@ -19,13 +20,16 @@
     <script>
       var scrabbler;
       $(function() {
-        scrabbler = new Scrabbler('wordlist.txt');
+        scrabbler = Scrabbler('wordlist.txt', function() {
+          $('#letters').fadeIn();
+          $('#message').fadeOut();
+        });
         var active = true;
         $('#letters').keyup(function(){
           if (active) {
             active = false;
-            var text = $('#letters').val();
-            var words = scrabbler.findWords(text);
+            var text = $('#letters').val().toLowerCase();
+            var words = scrabbler.find(text);
             $('#results').html(words.join(", "));
             setTimeout(function(){active = true;}, 30)
           }
