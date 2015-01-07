@@ -28,7 +28,7 @@ function __findWords (string) {
     }
   });
 
-  return _.uniq(words);
+  return _.uniq(words).reverse();
 }
 
 // Powerset implementation by binarymax
